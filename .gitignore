@@ -1,3 +1,11 @@
+# default books folders
 books_01
 books_02
+
+# eclipse stuff
+
+# eclipse stuff
+.settings
+.project
+
 
