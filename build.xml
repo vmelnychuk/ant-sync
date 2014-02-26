@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ant-sync" default="menu" basedir=".">
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <property file="build.properties" />
+    <target name="menu" description="menu interface">
+        <local name="action" />
+        <echo message="Welcome to Convertion" />
+        <echo message="Choose action and enter it number" />
+        <echo message="[1] convert" />
+        <echo message="[2] re-convert" />
+        <echo message="[3] clean" />
+        <echo message="[4] exit" />
+        <input message="Choose action: "
+			validargs="1,2,3,4"
+			addproperty="action"
+			defaultvalue="1" />
+        <echo message="You chose: [${action}]" />
+        <switch value="${action}">
+            <case value="1">
+                <antcall target="convert" />
+            </case>
+            <case value="2">
+                <antcall target="re-convert" />
+            </case>
+            <case value="3">
+                <antcall target="clean" />
+            </case>
+            <case value="4">
+                <antcall target="exit" />
+            </case>
+        </switch>
+    </target>
+    <target name="convert" description="convertion">
+        <native2ascii encoding="utf8" src="${src.dir}" dest="${conv.dir}"
+   includes="**/*.${file.ext}" ext=".${file.ext}" />
+        <antcall target="menu" />
+    </target>
+    <target name="re-convert" description="re-convertion">
+        <native2ascii encoding="utf8" src="${conv.dir}" dest="${reconv.dir}"
+   includes="**/*.${file.ext}" ext=".${file.ext}" />
+        <antcall target="menu" />
+    </target>
+    <target name="clean">
+        <echo message="Cleaning..." />
+        <delete dir="${conv.dir}" />
+        <delete dir="${reconv.dir}" />
+        <antcall target="menu" />
+    </target>
+    <target name="exit">
+        <echo message="Exit" />
+    </target>
+</project>
